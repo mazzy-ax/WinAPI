@@ -1,0 +1,98 @@
+﻿
+    server static int createDirectory(str name)
+    {
+        InteropPermission interopPerm;
+        ;
+        interopPerm = new InteropPermission(InteropKind::ClrInterop);
+        interopPerm.assert();
+
+        System.IO.Directory::CreateDirectory(name);
+        return 0;
+    }
+
+    // Verifyes or creates Path
+    //
+    server static public boolean createDirectoryPath(FilePath _path)
+    {
+        int         ptr;
+        ;
+
+        _path = strLRTrim(_path);
+
+        if (substr(_path,strlen(_path),1) != '\\') // Adding backslash gives a more simple while-loop!
+        {
+            _path += '\\';
+        }
+
+        ptr = strfind(_path, '\\', 1, strlen(_path));
+
+        while (ptr)
+        {
+            WinAPIServer::createDirectory(substr(_path, 1, ptr));
+
+            if (!WinAPIServer::folderExists(substr(_path, 1, ptr)))
+            {
+                break;
+            }
+
+            ptr = strfind(_path, '\\', ptr + 1, strlen(_path));
+        }
+
+        return WinAPIServer::folderExists(_path);
+    }
+
+    //This return true, if a file or directory exists.
+    server static boolean folderExists(Filename _filename)
+    {
+        InteropPermission interopPerm;
+        boolean ret;
+        ;
+        interopPerm = new InteropPermission(InteropKind::ClrInterop);
+        interopPerm.assert();
+
+        ret = System.IO.Directory::Exists(_filename);
+        return ret;
+    }
+
+    // Permissions needed
+    //      FileIOPermission(_fileName,'w');
+    public server static boolean removeDirectory(str _directory)
+    {
+        InteropPermission   interopPerm;
+        FileIOPermission    fileIOPerm;
+        Set                 permissionSet;
+        ;
+
+        //Bug#27066 -- v-venath: As FileIO and Interop Permissions are used in the code
+        //we get Multiple calls to CodeAccessPermission::Assert error, to avoid this create Permission Set
+        //and use CodeAccessPermission::assertMultiple.
+        permissionSet = new Set(Types::Class);
+
+        // check file I/O permission
+        fileIOPerm = new FileIOPermission(_directory,'w');
+
+        // get dll interop permission
+        interopPerm = new InteropPermission(InteropKind::ClrInterop);
+
+        // add both Permissions to Set.
+        permissionSet.add(fileIOPerm);
+        permissionSet.add(interopPerm);
+
+        // Call multiple assert on created Permissions Set.
+        CodeAccessPermission::assertMultiple(permissionSet);
+
+        try
+        {
+            System.IO.Directory::Delete(_directory,true);
+
+            // RevertAssert for created permissions.
+            CodeAccessPermission::revertAssert();
+            return true;
+        }
+        catch(Exception::CLRError)
+        {
+            // RevertAssert for created permissions.
+            CodeAccessPermission::revertAssert();
+            return false;
+        }
+    }
