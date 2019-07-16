@@ -23,7 +23,7 @@
 ## ChangeLog
 
 * [CHANGELOG.md](CHANGELOG.md)
-* <https://github.com/mazzy-ax/SysArgs/releases>
+* <https://github.com/mazzy-ax/WinAPI/releases>
 
 ## Помощь проекту
 
