@@ -5,9 +5,13 @@
 
 [WinAPI][project] &ndash; это набор методов на языке X++ для классов WinAPI и WinAPIServer в [Microsoft Dynamics AX 2009](ax2009), [Microsoft Dynamics AX 2012](ax2012) и [Axapta 4.0](ax4).
 
-## WinAPIServer
+## class WinAPI
 
-Методы класса WinAPIServer гарантировано выполняются на сервере. Дополнительно к стандартным методам это класса добавлены:
+Методы класса WinAPI гарантировано выполняются на клиенте. Изменений и добавлений пока нет.
+
+## class WinAPIServer
+
+Методы класса WinAPIServer гарантировано выполняются на сервере. Дополнительно к стандартным методам этого класса добавлены:
 
 * createDirectory
 * createDirectoryPath

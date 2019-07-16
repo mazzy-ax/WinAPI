@@ -1,5 +1,5 @@
 ﻿
-    server static int createDirectory(str name)
+    public server static int createDirectory(str name)
     {
         InteropPermission interopPerm;
         ;
@@ -12,7 +12,7 @@
 
     // Verifyes or creates Path
     //
-    server static public boolean createDirectoryPath(FilePath _path)
+    public server static boolean createDirectoryPath(FilePath _path)
     {
         int         ptr;
         ;
@@ -42,7 +42,7 @@
     }
 
     //This return true, if a file or directory exists.
-    server static boolean folderExists(Filename _filename)
+    public server static boolean folderExists(Filename _filename)
     {
         InteropPermission interopPerm;
         boolean ret;

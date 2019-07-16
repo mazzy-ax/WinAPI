@@ -6,18 +6,18 @@ Formatversion: 1
 ; Microsoft Dynamics AX Class: WinAPIServer unloaded
 ; --------------------------------------------------------------------------------
   CLSVERSION 1
-  
+
   CLASS #WinAPIServer
     PROPERTIES
       Name                #WinAPIServer
       Extends             #
       RunOn               #Server
     ENDPROPERTIES
-    
+
     METHODS
       Version: 3
       SOURCE #createDirectory
-        #server static int createDirectory(str name)
+        #public server static int createDirectory(str name)
         #{
         #    InteropPermission interopPerm;
         #    ;
@@ -31,7 +31,7 @@ Formatversion: 1
       SOURCE #createDirectoryPath
         #// Verifyes or creates Path
         #//
-        #server static public boolean createDirectoryPath(FilePath _path)
+        #public server static boolean createDirectoryPath(FilePath _path)
         #{
         #    int         ptr;
         #    ;
@@ -62,7 +62,7 @@ Formatversion: 1
       ENDSOURCE
       SOURCE #folderExists
         #//This return true, if a file or directory exists.
-        #server static boolean folderExists(Filename _filename)
+        #public server static boolean folderExists(Filename _filename)
         #{
         #    InteropPermission interopPerm;
         #    boolean ret;
@@ -126,13 +126,13 @@ Formatversion: 1
 ; Microsoft Dynamics AX Project : WinAPI unloaded
 ; --------------------------------------------------------------------------------
   PROJECTVERSION 2
-  
+
   PROJECT #WinAPI
    SHARED
   PROPERTIES
     Name                #WinAPI
   ENDPROPERTIES
-  
+
     PROJECTCLASS ProjectNode
     BEGINNODE
       FILETYPE 0
@@ -149,6 +149,6 @@ Formatversion: 1
       NAME #WinAPIServer
     ENDNODE
   ENDPROJECT
-  
+
 
 ***Element: END
